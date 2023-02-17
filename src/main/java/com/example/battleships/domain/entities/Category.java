@@ -2,13 +2,13 @@ package com.example.battleships.domain.entities;
 
 import com.example.battleships.domain.enums.CategoryType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -22,3 +22,7 @@ public class Category {
     @Column(columnDefinition = "TEXT")
     private String description;
 }
+
+
+
+

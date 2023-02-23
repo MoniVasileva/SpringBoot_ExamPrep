@@ -10,13 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 @Service
 public class CategoryService {
-
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
+
 
     @Autowired
     public CategoryService(CategoryRepository categoryRepository, ModelMapper modelMapper) {
@@ -28,12 +27,16 @@ public class CategoryService {
     private void postConstruct() {
         if (this.categoryRepository.count() == 0) {
             this.categoryRepository.saveAllAndFlush(Arrays.stream(CategoryType.values())
-                    .map(ct -> CategoryModel.builder()
-                            .name(ct)
+                    .map(enumValue -> CategoryModel.builder()
+                            .name(enumValue)
                             .description("fight me")
                             .build())
-                    .map(ctm -> this.modelMapper.map(ctm, Category.class))
+                    .map(categoryModel -> this.modelMapper.map(categoryModel, Category.class))
                     .toList());
         }
+    }
+
+    public CategoryModel findByName(CategoryType name) {
+        return this.modelMapper.map(this.categoryRepository.findByName(name).orElseThrow(), CategoryModel.class);
     }
 }

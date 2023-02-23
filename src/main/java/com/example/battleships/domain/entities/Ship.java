@@ -1,8 +1,6 @@
 package com.example.battleships.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,18 +17,22 @@ public class Ship {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    @Size(min = 2, max = 10)
     private String name;
     @Column(nullable = false)
     private Long health;
-    @Column
+    @Column(nullable = false)
     private Long power;
-    @Column
+    @Column(nullable = false)
     private Date created;
     @ManyToOne
     private Category category;
     @ManyToOne
     private User user;
 
+    @Override
+    public String toString() {
+        String s = "| %s | %s | %s |";
+        return String.format(s, name, health, power);
 
+    }
 }
